@@ -22,7 +22,7 @@ public class Main {
 			S.add(br.readLine());
 		}
 
-		Collections.sort(S);
+		//Collections.sort(S);
 
 		String s;
 		int answer = 0;
