@@ -20,13 +20,13 @@ public class Main {
 	static boolean[][] map;
 	// 방문 체크
 	static boolean[] isVisited;
+	// 부분 집합 선택 체크
 	static boolean[] isSelected;
-
-
-	static int[] subsets;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
+		// 입력 받기
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		N = Integer.parseInt(br.readLine());
@@ -36,7 +36,6 @@ public class Main {
 		map = new boolean[N + 1][N + 1];
 		isVisited = new boolean[N + 1];
 		isSelected = new boolean[N + 1];
-		subsets = new int[N + 1];
 
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for (int i = 1; i <= N; i++) {
@@ -55,7 +54,9 @@ public class Main {
 			}
 		}
 		
+		// 부분집합으로 확인
 		subset(0);
+		// 가능한 조합이 없어서 answer이 업데이트 되지 않았을때 -1 출력
 		if(answer == Integer.MAX_VALUE)
 			answer = -1;
 		System.out.println(answer);
@@ -76,6 +77,7 @@ public class Main {
 		subset(depth + 1);
 	}
 	
+	// 두 집합을 DFS해서 조합이 가능한 경우 두 집합의 인구의 차이 값을 리턴, 불가능한 경우 -1을 리턴
 	public static int diff(boolean[] isSelected) {
 		
 		int sum1 = 0;
@@ -116,6 +118,7 @@ public class Main {
 			}
 		}
 		
+		// arr2이 공집합이 아닐 경우 가능한 집합인지 확인
 		if(!arr2.isEmpty()) {
 			q2.add(arr2.remove(0));
 			while(!q2.isEmpty()) {
@@ -130,12 +133,13 @@ public class Main {
 				}
 			}
 		}
-
 		
 		int sum2 = total_population-sum1;
 		
+		// 둘 다 가능한 집합일때 차이 반환
 		if(arr1.isEmpty() && arr2.isEmpty())
 			return Math.abs(sum1-sum2);
+		// 불가능하면 -1 반환
 		else
 			return -1;
 	}
