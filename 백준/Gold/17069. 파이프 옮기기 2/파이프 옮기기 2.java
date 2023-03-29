@@ -1,23 +1,22 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
 
+
 	public static class MapAnswer {
 		// 가로 상태의 가지수, 세로 상태 가지수, 대각선 상태 가지수
-		BigInteger[] answer = new BigInteger[3];
+		long[] answer = new long[3];
 
 		public MapAnswer() {
-			this.answer[0] = BigInteger.ZERO;
-			this.answer[1] = BigInteger.ZERO;
-			this.answer[2] = BigInteger.ZERO;
+			this.answer[0] = 0;
+			this.answer[1] = 0;
+			this.answer[2] = 0;
 		}
 
-		public MapAnswer(BigInteger answer0, BigInteger answer1, BigInteger answer2) {
+		public MapAnswer(int answer0, int answer1, int answer2) {
 			this.answer[0] = answer0;
 			this.answer[1] = answer1;
 			this.answer[2] = answer2;
@@ -54,27 +53,25 @@ public class Main {
 			}
 		}
 
-		mapAnswer[1][2] = new MapAnswer(BigInteger.ONE, BigInteger.ZERO, BigInteger.ZERO);
+		mapAnswer[1][2] = new MapAnswer(1, 0, 0);
 
 		for (int i = 1; i < N + 1; i++) {
 			for (int j = 2; j < N + 1; j++) {
 				if (i == 1 && j == 2)
 					continue;
 				if (map[i][j] == 0) {
-					mapAnswer[i][j].answer[0] = mapAnswer[i][j].answer[0].add(mapAnswer[i][j - 1].answer[0])
-							.add(mapAnswer[i][j - 1].answer[2]);
-					mapAnswer[i][j].answer[1] = mapAnswer[i][j].answer[1].add(mapAnswer[i - 1][j].answer[1])
-							.add(mapAnswer[i - 1][j].answer[2]);
+					mapAnswer[i][j].answer[0] += mapAnswer[i][j - 1].answer[0] + mapAnswer[i][j - 1].answer[2];
+					mapAnswer[i][j].answer[1] += mapAnswer[i - 1][j].answer[1] + mapAnswer[i - 1][j].answer[2];
 					if (map[i][j - 1] == 0 && map[i - 1][j] == 0)
-						mapAnswer[i][j].answer[2] = mapAnswer[i][j].answer[2].add(mapAnswer[i - 1][j - 1].answer[0])
-								.add(mapAnswer[i - 1][j - 1].answer[1]).add(mapAnswer[i - 1][j - 1].answer[2]);
+						mapAnswer[i][j].answer[2] += mapAnswer[i - 1][j - 1].answer[0]
+								+ mapAnswer[i - 1][j - 1].answer[1] + mapAnswer[i - 1][j - 1].answer[2];
 				}
 			}
 		}
 
-		BigInteger answer = BigInteger.ZERO;
-		for (BigInteger a : mapAnswer[N][N].answer) {
-			answer = answer.add(a);
+		long answer = 0;
+		for (long a : mapAnswer[N][N].answer) {
+			answer += a;
 		}
 
 		System.out.println(answer);
