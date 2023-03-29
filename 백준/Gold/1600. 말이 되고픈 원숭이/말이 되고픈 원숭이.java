@@ -25,15 +25,13 @@ public class Main {
 	}
 
 	public static class MapInfo {
-		int move, horseCount;
+		int horseCount;
 
 		public MapInfo() {
-			this.move = Integer.MAX_VALUE;
 			this.horseCount = -1;
 		}
 
-		public MapInfo(int move, int horseCount) {
-			this.move = move;
+		public MapInfo(int horseCount) {
 			this.horseCount = horseCount;
 		}
 
@@ -73,7 +71,7 @@ public class Main {
 				mapinfo[i][j] = new MapInfo();
 			}
 		}
-		mapinfo[0][0] = new MapInfo(-1, Integer.MAX_VALUE);
+		mapinfo[0][0] = new MapInfo(Integer.MAX_VALUE);
 
 		BFS();
 		if (answer == Integer.MAX_VALUE)
@@ -100,10 +98,8 @@ public class Main {
 					int nx = m.x + dx[i1];
 					int ny = m.y + dy[i1];
 					if (canGo(nx, ny)) {
-						// 이전보다 빨리 도착했거나 말 이동 개수가 많이 남아있으면
-						// 이전보다 빨리 도착했거나 말 이동 개수가 많이 남아있으면
-						if (mapinfo[ny][nx].move > count + 1 || m.horseCount > mapinfo[ny][nx].horseCount) {
-							mapinfo[ny][nx].move = Math.min(mapinfo[ny][nx].move, count + 1);
+						// 말 이동 개수가 많이 남아있으면
+						if (m.horseCount > mapinfo[ny][nx].horseCount) {
 							mapinfo[ny][nx].horseCount = Math.max(mapinfo[ny][nx].horseCount, m.horseCount);
 							q.add(new Monkey(nx, ny, m.horseCount));
 						}
@@ -116,9 +112,8 @@ public class Main {
 						int nx = m.x + hx[i1];
 						int ny = m.y + hy[i1];
 						if (canGo(nx, ny)) {
-							// 이전보다 빨리 도착했거나 말 이동 개수가 많이 남아있으면
-							if (mapinfo[ny][nx].move > count + 1 || m.horseCount - 1 > mapinfo[ny][nx].horseCount) {
-								mapinfo[ny][nx].move = Math.min(mapinfo[ny][nx].move, count + 1);
+							// 말 이동 개수가 많이 남아있으면
+							if (m.horseCount - 1 > mapinfo[ny][nx].horseCount) {
 								mapinfo[ny][nx].horseCount = Math.max(mapinfo[ny][nx].horseCount, m.horseCount - 1);
 								q.add(new Monkey(nx, ny, m.horseCount - 1));
 							}
