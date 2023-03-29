@@ -6,15 +6,34 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	public static class Pipe {
-		// 파이프 끝의 x좌표, y좌표, 놓여진 상태(0: 가로, 1: 세로, 2: 대각선)
-		int x, y, status;
+	public static class MapAnswer {
+		// 가로 상태의 가지수, 세로 상태 가지수, 대각선 상태 가지수
+		int[] answer = new int[3];
+
+		public MapAnswer() {
+			this.answer[0] = 0;
+			this.answer[1] = 0;
+			this.answer[2] = 0;
+		}
+
+		public MapAnswer(int answer0, int answer1, int answer2) {
+			this.answer[0] = answer0;
+			this.answer[1] = answer1;
+			this.answer[2] = answer2;
+		}
+
+		@Override
+		public String toString() {
+			return "MapAnswer [answer=" + Arrays.toString(answer) + "]";
+		}
+
 	}
 
 	static int[] dx = { 1, 0, 1 };
 	static int[] dy = { 0, 1, 1 };
 
-	static int[][] map;
+	static MapAnswer[][] mapAnswer;
+	static int map[][];
 	static int N, answer = 0;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -22,10 +41,14 @@ public class Main {
 		N = Integer.parseInt(br.readLine());
 		StringTokenizer st;
 
-		map = new int[N+2][N+2];
-		
-		for (int i = 0; i < N+2; i++) {
-			Arrays.fill(map[i], -1);
+		mapAnswer = new MapAnswer[N + 2][N + 2];
+		map = new int[N + 2][N + 2];
+
+		for (int i = 0; i < N + 2; i++) {
+			for (int j = 0; j < N + 2; j++) {
+				mapAnswer[i][j] = new MapAnswer();
+				map[i][j] = -1;
+			}
 		}
 
 		for (int i = 1; i <= N; i++) {
@@ -35,47 +58,29 @@ public class Main {
 			}
 		}
 
-		DFS(2, 1, 0);
+		mapAnswer[1][2] = new MapAnswer(1, 0, 0);
+
+		for (int i = 1; i < N + 1; i++) {
+			for (int j = 2; j < N + 1; j++) {
+				if (i == 1 && j == 2)
+					continue;
+				if (map[i][j] == 0) {
+					mapAnswer[i][j].answer[0] += mapAnswer[i][j - 1].answer[0] + mapAnswer[i][j - 1].answer[2];
+					mapAnswer[i][j].answer[1] += mapAnswer[i - 1][j].answer[1] + mapAnswer[i - 1][j].answer[2];
+					if (map[i][j - 1] == 0 && map[i - 1][j] == 0)
+						mapAnswer[i][j].answer[2] += mapAnswer[i - 1][j - 1].answer[0]
+								+ mapAnswer[i - 1][j - 1].answer[1] + mapAnswer[i - 1][j - 1].answer[2];
+				}
+			}
+		}
+
+		int answer = 0;
+		for (int a : mapAnswer[N][N].answer) {
+			answer += a;
+		}
 
 		System.out.println(answer);
 
-	}
-
-	private static void DFS(int x, int y, int status) {
-		if (x == N && y == N) {
-			answer++;
-			return;
-		}
-		for (int i = 0; i < 3; i++) {
-			if(status == 0 && i == 1)
-				continue;
-			if(status == 1 && i == 0)
-				continue;
-			if (canGo(x, y, i)) {
-				DFS(x + dx[i], y + dy[i], i);
-			}
-		}
-	}
-
-	private static boolean canGo(int x, int y, int move) {
-		switch (move) {
-		case 0:
-			if (map[y][x + 1] == 0)
-				return true;
-			else
-				return false;
-		case 1:
-			if (map[y + 1][x] == 0)
-				return true;
-			else
-				return false;
-		case 2:
-			if (map[y][x + 1] == 0 && map[y + 1][x] == 0 && map[y + 1][x + 1] == 0)
-				return true;
-			else
-				return false;
-		}
-		return false;
 	}
 
 }
