@@ -17,11 +17,6 @@ public class Main {
 			this.horseCount = horseCount;
 		}
 
-		@Override
-		public String toString() {
-			return "Monkey [x=" + x + ", y=" + y + ", horseCount=" + horseCount + "]";
-		}
-
 	}
 
 	public static class MapInfo {
@@ -29,10 +24,6 @@ public class Main {
 
 		public MapInfo() {
 			this.horseCount = -1;
-		}
-
-		public MapInfo(int horseCount) {
-			this.horseCount = horseCount;
 		}
 
 	}
@@ -71,7 +62,7 @@ public class Main {
 				mapinfo[i][j] = new MapInfo();
 			}
 		}
-		mapinfo[0][0] = new MapInfo(Integer.MAX_VALUE);
+		mapinfo[0][0].horseCount = Integer.MAX_VALUE;
 
 		BFS();
 		if (answer == Integer.MAX_VALUE)
