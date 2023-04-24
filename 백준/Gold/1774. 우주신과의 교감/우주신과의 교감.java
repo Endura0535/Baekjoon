@@ -17,7 +17,7 @@ public class Main {
 	public static int findSet(int v) {
 		if (parents[v] == v)
 			return v;
-		return findSet(parents[v]);
+		return (parents[v] = findSet(parents[v]));
 	}
 
 	public static void union(int v, int u) {
