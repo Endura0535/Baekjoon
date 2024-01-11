@@ -9,25 +9,24 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
-        int[] height = new int[N];
         st = new StringTokenizer(br.readLine());
-        height[0] = Integer.parseInt(st.nextToken());
-        int now = height[0];
+        int now = Integer.parseInt(st.nextToken());
         List<Integer> gap = new ArrayList<>();
+        int answer = -now;
         for (int i = 1; i < N; i++) {
-            height[i] = Integer.parseInt(st.nextToken());
-            gap.add(height[i] - now);
-            now = height[i];
+            int h = Integer.parseInt(st.nextToken());
+            gap.add(h - now);
+            now = h;
         }
-
+        answer += now;
         Collections.sort(gap, Collections.reverseOrder());
 
         int minus = 0;
         for (int i = 0; i < K - 1; i++) {
-            minus += gap.get(i);
+            answer -= gap.get(i);
         }
 
-        System.out.println(height[N - 1] - height[0] - minus);
+        System.out.println(answer);
 
     }
 }
