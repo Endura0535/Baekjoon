@@ -1,0 +1,10 @@
+select NAME, COUNT
+from 
+(
+    select NAME, count(NAME) COUNT
+    from ANIMAL_INS
+    where NAME is not null
+    group by NAME
+) a
+where COUNT >= 2
+order by NAME
