@@ -1,8 +1,7 @@
 import java.util.*;
-import java.io.*;
 
 class Solution {
-    public int solution(int[][] board, int[][] skill) throws IOException {
+    public int solution(int[][] board, int[][] skill){
         
         int rLen = board.length;
         int cLen = board[0].length;
