@@ -1,24 +1,17 @@
-import java.util.*;
-
 class Solution {
-    public int solution(int n) {
-        if(n % 2 == 1)
-            return 0;
-        
-        long[] arr = new long[n+1];
+    final int MOD = 1_000_000_007;
+    
+    public long solution(int n) {
+        long[] arr = new long[5001];
+        arr[1] = 2;
         arr[2] = 3;
-        if(n < 4)
-            return Long.valueOf(arr[n]).intValue();
-        
-        int mod = 1000000007;
-        for(int i = 4; i <= n; i += 2){
-            long sum = (arr[i-2] * 3 + 2) % mod;
-            for(int j = i-4; j > 0; j -= 2){
-                sum += arr[j] * 2 % mod;
+        for(int i=3;i<=n;i++) {
+            if(i%2 == 0) {
+                arr[i] = (arr[i-1] + arr[i-2])%MOD;
+            }else {
+                arr[i] = (arr[i-1]*2 + arr[i-2])%MOD;
             }
-            arr[i] = sum % mod;
         }
-                
-        return Long.valueOf(arr[n]).intValue();
+        return arr[n];
     }
 }
