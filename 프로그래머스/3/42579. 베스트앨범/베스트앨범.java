@@ -15,6 +15,12 @@ class Solution {
         public int compareTo(Song S){
             return S.plays - this.plays;
         }
+        
+        @Override
+        public String toString(){
+            String s = "";
+            return ("idx: " + this.idx + ", plays: " + this.plays + "\n");
+        }
     }
     
     class Genre implements Comparable<Genre>{
@@ -36,6 +42,15 @@ class Solution {
         @Override
         public int compareTo(Genre G){
             return G.playCnt - this.playCnt;
+        }
+        
+        @Override
+        public String toString(){
+            String s = ("genre: " + this.name + " playCnt: " + this.playCnt + "\n");
+            for(Song song : songs){
+                s += song.toString();
+            }
+            return s;
         }
     }
     
