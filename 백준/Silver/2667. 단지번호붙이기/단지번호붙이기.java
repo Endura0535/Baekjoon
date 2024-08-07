@@ -22,13 +22,11 @@ public class Main {
                 }
             }
         }
-        int city = 0;
         List<Integer> countList = new ArrayList<>();
         boolean[][] visited = new boolean[N][N];
         for (int y = 0; y < N; y++) {
             for (int x = 0; x < N; x++) {
                 if (map[y][x] == 1 && !visited[y][x]) {
-                    city++;
                     Queue<Point> queue = new LinkedList<>();
                     queue.add(new Point(x, y));
                     visited[y][x] = true;
@@ -55,7 +53,7 @@ public class Main {
             }
         }
         Collections.sort(countList);
-        System.out.println(city);
+        System.out.println(countList.size());
         for (int c : countList) {
             System.out.println(c);
         }
