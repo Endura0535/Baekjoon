@@ -2,10 +2,8 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
+import java.util.List;
 
 public class Main {
 
@@ -13,57 +11,53 @@ public class Main {
     static int[] dy = {-1, 1, 0, 0};
 
     public static void main(String[] args) throws IOException {
-
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        int[][] map = new int[N + 2][N + 2];
-
-        for (int i = 1; i <= N; i++) {
-            String string = br.readLine();
-            for (int j = 1; j <= N; j++) {
-                map[i][j] = Integer.parseInt(String.valueOf(string.charAt(j-1)));
+        int[][] map = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            String s = br.readLine();
+            for (int j = 0; j < N; j++) {
+                if (s.charAt(j) == '1') {
+                    map[i][j] = s.charAt(j) - '0';
+                }
             }
         }
-
-        boolean[][] visited = new boolean[N + 2][N + 2];
-
-        ArrayList<Integer> list = new ArrayList<>();
-
-        for (int i = 1; i <= N; i++) {
-            for (int j = 1; j <= N; j++) {
-                if (map[i][j] == 1 && !visited[i][j]) {
+        int city = 0;
+        List<Integer> countList = new ArrayList<>();
+        boolean[][] visited = new boolean[N][N];
+        for (int y = 0; y < N; y++) {
+            for (int x = 0; x < N; x++) {
+                if (map[y][x] == 1 && !visited[y][x]) {
+                    city++;
                     Queue<Point> queue = new LinkedList<>();
-                    queue.add(new Point(j, i));
-                    int qSize = 0;
+                    queue.add(new Point(x, y));
+                    visited[y][x] = true;
+                    int cnt = 0;
                     while (!queue.isEmpty()) {
                         int size = queue.size();
-                        qSize += size;
-                        for (int k = 0; k < size; k++) {
+                        cnt += size;
+                        for (int i = 0; i < size; i++) {
                             Point p = queue.poll();
-                            visited[p.y][p.x] = true;
                             for (int d = 0; d < 4; d++) {
-                                int nx = p.x + dx[d];
-                                int ny = p.y + dy[d];
-                                if (!visited[ny][nx] && map[ny][nx] == 1) {
-                                    queue.add(new Point(nx, ny));
-                                    visited[ny][nx] = true;
+                                int nx = dx[d] + p.x;
+                                int ny = dy[d] + p.y;
+                                if (nx >= 0 && ny >= 0 && nx < N && ny < N) {
+                                    if (map[ny][nx] == 1 && !visited[ny][nx]) {
+                                        visited[ny][nx] = true;
+                                        queue.add(new Point(nx, ny));
+                                    }
                                 }
                             }
                         }
                     }
-                    list.add(qSize);
+                    countList.add(cnt);
                 }
             }
         }
-
-        Collections.sort(list);
-
-        System.out.println(list.size());
-        for (int i : list) {
-            System.out.println(i);
+        Collections.sort(countList);
+        System.out.println(city);
+        for (int c : countList) {
+            System.out.println(c);
         }
-
     }
-
-
 }
