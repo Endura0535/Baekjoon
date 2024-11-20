@@ -1,5 +1,4 @@
 import java.util.*;
-import java.awt.Point;
 
 class Solution {
     public int solution(String name) {
