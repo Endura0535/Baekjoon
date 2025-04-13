@@ -1,42 +1,21 @@
-import java.util.*;
+import java.util.Arrays;
 
 class Solution {
     public long solution(int[] sequence) {
-        
+        int len = sequence.length;
+        long[] arr1 = new long[len + 1];
         int x = 1;
-        List<Long> plusList = new ArrayList<>();
-        List<Long> minusList = new ArrayList<>();
+        long sum1 = 0;
         
-        long sum = 0;
-        int multiply = 1;
-        for(int s : sequence){
-            sum += s * multiply;
-            multiply *= -1;
-            if(sum >= 0)
-                plusList.add(sum);
-            else
-                minusList.add(sum);
+        for (int i = 0; i < len; i++) {
+            sum1 += sequence[i] * x;
+            x *= -1;
+            arr1[i + 1] = sum1;
         }
         
-        long answer = 0;
+        long max = Arrays.stream(arr1).max().getAsLong();
+        long min = Arrays.stream(arr1).min().getAsLong();
         
-        if(plusList.isEmpty()){
-            if(minusList.size() != 1)
-                answer = Math.abs(Collections.min(minusList));
-            else
-                answer = -minusList.get(0);
-        }
-        
-        if(minusList.isEmpty()){
-            if(plusList.size() != 1)
-                answer = Math.abs(Collections.max(plusList));
-            else
-                answer = plusList.get(0);
-        }
-        
-        if(!plusList.isEmpty() && !minusList.isEmpty())
-            answer = Math.abs(Collections.max(plusList)) + Math.abs(Collections.min(minusList));
-        
-        return answer;
+        return max - min;
     }
 }
