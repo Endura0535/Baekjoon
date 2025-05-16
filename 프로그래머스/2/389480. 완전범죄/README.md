@@ -1,6 +1,6 @@
 # [level 2] 완전범죄 - 389480 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/389480?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/389480) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 04월 06일 02:11:59
+2025년 05월 16일 18:53:46
 
 ### 문제 설명
 
