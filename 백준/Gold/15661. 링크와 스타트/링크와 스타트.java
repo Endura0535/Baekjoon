@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     static int[][] bonus;
@@ -31,31 +29,30 @@ public class Main {
         System.out.println(answer);
     }
 
-    public static void dfs(int idx, List<Integer> aGroup, List<Integer> bGroup, int b, int aSum, int bSum) {
-
+    static void dfs(int idx, List<Integer> aGroup, List<Integer> bGroup, int fixedB, int aSum, int bSum) {
         if (idx == N) {
             answer = Math.min(answer, Math.abs(aSum - bSum));
             return;
         }
 
-        if (idx != b) {
-            int newAsum = aSum;
-            for (int n : aGroup) {
-                newAsum += bonus[n][idx];
-                newAsum += bonus[idx][n];
-            }
+        if (idx != fixedB) {
+            int added = calcIncrement(aGroup, idx);
             aGroup.add(idx);
-            dfs(idx + 1, aGroup, bGroup, b, newAsum, bSum);
-
+            dfs(idx + 1, aGroup, bGroup, fixedB, aSum + added, bSum);
             aGroup.remove(aGroup.size() - 1);
         }
-        int newBsum = bSum;
-        for (int n : bGroup) {
-            newBsum += bonus[n][idx];
-            newBsum += bonus[idx][n];
-        }
+
+        int added = calcIncrement(bGroup, idx);
         bGroup.add(idx);
-        dfs(idx + 1, aGroup, bGroup, b, aSum, newBsum);
+        dfs(idx + 1, aGroup, bGroup, fixedB, aSum, bSum + added);
         bGroup.remove(bGroup.size() - 1);
+    }
+
+    static int calcIncrement(List<Integer> group, int idx) {
+        int sum = 0;
+        for (int n : group) {
+            sum += bonus[n][idx] + bonus[idx][n];
+        }
+        return sum;
     }
 }
